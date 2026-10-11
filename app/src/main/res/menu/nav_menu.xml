@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_add"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="Thêm công việc mới" />
+
+        <item
+            android:id="@+id/nav_categories"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Quản lý danh mục" />
+
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@android:drawable/ic_menu_today"
+            android:title="Lịch công việc" />
+
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="Báo cáo &amp; Thống kê tiến độ" />
+
+        <item
+            android:id="@+id/nav_clear"
+            android:icon="@android:drawable/ic_menu_delete"
+            android:title="Dọn dẹp việc đã xong" />
+
+        <item
+            android:id="@+id/nav_backup"
+            android:icon="@android:drawable/ic_menu_share"
+            android:title="Sao lưu &amp; Chia sẻ dữ liệu" />
+    </group>
+
+    <item android:title="Hệ thống &amp; Cài đặt">
+        <menu>
+            <item
+                android:id="@+id/nav_info"
+                android:icon="@android:drawable/ic_menu_info_details"
+                android:title="Thông tin Đồ án &amp; Tác giả" />
+        </menu>
+    </item>
+
+</menu>
