@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F4F7FE"
+    android:fitsSystemWindows="true">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarAi"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#4318FF"
+        app:navigationIcon="@android:drawable/ic_menu_revert"
+        app:title="Trợ Lý AI Lập Kế Hoạch"
+        app:titleTextColor="#FFFFFF" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Hero Banner AI -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="✨ TRỢ LÝ AI LÊN LỊCH THÔNG MINH"
+                        android:textColor="#4318FF"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="6dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tự động nghiên cứu phương pháp &amp; lên lịch công việc tối ưu cho cá nhân bạn trong 1 ngày, 1 tuần hoặc 1 tháng."
+                        android:textColor="#2B3674"
+                        android:textSize="13sp"
+                        android:gravity="center"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 1: Nhập mục tiêu & Cấu hình AI -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E2E8F0"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🎯 Nhập mục tiêu cá nhân:"
+                        android:textColor="#2B3674"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Ví dụ: Ôn thi Lập trình Di động, Luyện Tiếng Anh..."
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAiGoalInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:textColor="#2B3674"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⏱️ Thời gian lập kế hoạch:"
+                        android:textColor="#2B3674"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="6dp"/>
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupTimeframe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:selectionRequired="true"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip1Day"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📅 1 Ngày" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip1Week"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="🗓️ 1 Tuần" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip1Month"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📆 1 Tháng" />
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🧠 Chiến lược &amp; Phương pháp Lập kế hoạch:"
+                        android:textColor="#2B3674"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="6dp"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerAiStrategy"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="16dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGenerateAiPlan"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="✨ PHÂN TÍCH &amp; LÊN LỊCH CÔNG VIỆC BẰNG AI"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="14dp"
+                        app:backgroundTint="#4318FF"
+                        android:textColor="#FFFFFF"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 2: Lời Khuyên & Phân Tích Phương Pháp -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAiInsights"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E2E8F0"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="💡 Lời khuyên &amp; Chiến lược AI đề xuất"
+                        android:textColor="#4318FF"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvAiStrategyExplanation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#2B3674"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 3: Lịch Công Việc AI Đề Xuất -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAiProposedTasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E2E8F0"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/tvProposedTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📋 Danh Sách Công Việc AI Đề Xuất:"
+                        android:textColor="#2B3674"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/layoutAiProposedTasksList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="16dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnApplyAiSchedule"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="📥 LƯU TẤT CẢ LỊCH AI VÀO ỨNG DỤNG"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="14dp"
+                        app:backgroundTint="#05CD99"
+                        android:textColor="#FFFFFF"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

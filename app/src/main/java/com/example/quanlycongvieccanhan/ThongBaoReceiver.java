@@ -7,14 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 
-public class NotificationReceiver extends BroadcastReceiver {
+public class ThongBaoReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String title = intent.getStringExtra("taskTitle");
         String desc = intent.getStringExtra("taskDesc");
         int notificationId = (int) System.currentTimeMillis();
 
-        Intent fullScreenIntent = new Intent(context, AlarmActivity.class);
+        Intent fullScreenIntent = new Intent(context, BaoThucActivity.class);
         fullScreenIntent.putExtra("taskTitle", title);
         fullScreenIntent.putExtra("taskDesc", desc);
         fullScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -26,10 +26,10 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setContentTitle("⏰ Sắp đến hạn: " + title)
                 .setContentText("Chạm để mở báo thức")
-                .setPriority(NotificationCompat.PRIORITY_MAX) // Mức độ ưu tiên cao nhất
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setFullScreenIntent(fullScreenPendingIntent, true)
-                .setOngoing(true) // NGĂN NGƯỜI DÙNG VUỐT XÓA THÔNG BÁO
+                .setOngoing(true)
                 .setAutoCancel(true);
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -37,7 +37,6 @@ public class NotificationReceiver extends BroadcastReceiver {
             manager.notify(notificationId, builder.build());
         }
 
-        // Cố gắng ép mở màn hình Popup ngay lập tức nếu điện thoại đang mở khóa
         try {
             context.startActivity(fullScreenIntent);
         } catch (Exception e) {

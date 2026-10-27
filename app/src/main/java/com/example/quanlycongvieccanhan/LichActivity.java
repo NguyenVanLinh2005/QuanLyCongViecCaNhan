@@ -1,5 +1,6 @@
 package com.example.quanlycongvieccanhan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
@@ -16,10 +17,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class CalendarActivity extends AppCompatActivity {
+public class LichActivity extends AppCompatActivity {
 
     private TaskViewModel taskViewModel;
-    private TaskAdapter adapter;
+    private CongViecAdapter adapter;
     private TextView tvSelectedDateTitle;
     private View layoutCalendarEmpty;
 
@@ -44,7 +45,7 @@ public class CalendarActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rvCalendarTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new TaskAdapter(new TaskAdapter.OnTaskItemClickListener() {
+        adapter = new CongViecAdapter(new CongViecAdapter.OnTaskItemClickListener() {
             @Override
             public void onDeleteClick(Task task) { taskViewModel.delete(task); }
             @Override
@@ -53,7 +54,11 @@ public class CalendarActivity extends AppCompatActivity {
                 taskViewModel.update(task);
             }
             @Override
-            public void onEditClick(Task task) {}
+            public void onEditClick(Task task) {
+                Intent intent = new Intent(LichActivity.this, ChiTietActivity.class);
+                intent.putExtra("taskId", task.getId());
+                startActivity(intent);
+            }
             @Override
             public void onFavoriteClick(Task task, boolean isFavorite) {
                 task.setFavorite(isFavorite);
@@ -64,7 +69,6 @@ public class CalendarActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(adapter);
 
-        // Khởi tạo ngày hiện tại
         Calendar calendar = Calendar.getInstance();
         selectedYear = calendar.get(Calendar.YEAR);
         selectedMonth = calendar.get(Calendar.MONTH);

@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class AddTaskActivity extends AppCompatActivity {
+public class ThemCongViecActivity extends AppCompatActivity {
 
     private TaskViewModel taskViewModel;
     private EditText etTitle, etDescription, etLocation, etSubTasks;
@@ -196,7 +196,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 long alarmTime = calendar.getTimeInMillis();
                 if (alarmTime > System.currentTimeMillis()) {
-                    Intent intent = new Intent(this, NotificationReceiver.class);
+                    Intent intent = new Intent(this, ThongBaoReceiver.class);
                     intent.putExtra("taskTitle", task.getTitle());
                     intent.putExtra("taskDesc", task.getDescription());
 

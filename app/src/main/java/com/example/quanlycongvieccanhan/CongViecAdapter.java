@@ -13,13 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quanlycongvieccanhan.data.Task;
 import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
+public class CongViecAdapter extends RecyclerView.Adapter<CongViecAdapter.TaskViewHolder> {
     private List<Task> taskList = new ArrayList<>();
     private List<Task> taskListFull = new ArrayList<>();
     private String currentQuery = "";
     private String currentFilterType = "ALL";
+    private String currentDatePattern = "ALL";
+    private String currentSortType = "DEFAULT";
     private final OnTaskItemClickListener listener;
 
     public interface OnTaskItemClickListener {
@@ -30,7 +33,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         void onFavoriteClick(Task task, boolean isFavorite);
     }
 
-    public TaskAdapter(OnTaskItemClickListener listener) {
+    public CongViecAdapter(OnTaskItemClickListener listener) {
         this.listener = listener;
     }
 
@@ -51,6 +54,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         applyFilter();
     }
 
+    public void filterDatePattern(String datePattern) {
+        this.currentDatePattern = (datePattern == null) ? "ALL" : datePattern;
+        applyFilter();
+    }
+
+    public void sortType(String sort) {
+        this.currentSortType = (sort == null) ? "DEFAULT" : sort;
+        applyFilter();
+    }
+
     private void applyFilter() {
         List<Task> filteredList = new ArrayList<>();
         for (Task item : taskListFull) {
@@ -60,6 +73,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     (item.getLocation() != null && item.getLocation().toLowerCase().contains(currentQuery));
 
             if (!matchesSearch) continue;
+
+            // Lọc theo Ngày cụ thể nếu chọn Tab Ngày
+            if (!"ALL".equals(currentDatePattern)) {
+                if (item.getDateTime() == null || !item.getDateTime().contains(currentDatePattern)) {
+                    continue;
+                }
+            }
 
             boolean matchesType = false;
             switch (currentFilterType) {
@@ -80,6 +100,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 filteredList.add(item);
             }
         }
+
+        if ("PRIORITY_DESC".equals(currentSortType)) {
+            Collections.sort(filteredList, (t1, t2) -> Integer.compare(t2.getPriority(), t1.getPriority()));
+        } else if ("NAME_ASC".equals(currentSortType)) {
+            Collections.sort(filteredList, (t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
+        } else if ("DATE_ASC".equals(currentSortType)) {
+            Collections.sort(filteredList, (t1, t2) -> {
+                if (t1.getDateTime() == null || t1.getDateTime().isEmpty()) return 1;
+                if (t2.getDateTime() == null || t2.getDateTime().isEmpty()) return -1;
+                return t1.getDateTime().compareTo(t2.getDateTime());
+            });
+        }
+
         this.taskList = filteredList;
         notifyDataSetChanged();
     }

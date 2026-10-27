@@ -2,21 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Nút Lịch công việc (Nổi bật trên Toolbar) -->
+    <!-- Nút Lịch công việc -->
     <item
         android:id="@+id/action_calendar"
         android:icon="@android:drawable/ic_menu_today"
         android:title="Lịch công việc"
         app:showAsAction="always" />
 
-    <!-- Nút Mở nhanh Thống kê (Nổi bật trên Toolbar) -->
+    <!-- Nút Sắp xếp danh sách -->
+    <item
+        android:id="@+id/action_sort"
+        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:title="Sắp xếp danh sách"
+        app:showAsAction="always" />
+
+    <!-- Nút Mở nhanh Thống kê -->
     <item
         android:id="@+id/action_stats"
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:title="Thống kê tiến độ"
         app:showAsAction="always" />
 
-    <!-- Nút Tìm kiếm (Nổi bật trên Toolbar) -->
+    <!-- Nút Tìm kiếm -->
     <item
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
@@ -24,7 +31,7 @@
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
-    <!-- Các mục trong Menu 3 chấm (Dropdown Popup Menu) -->
+    <!-- Các mục trong Menu 3 chấm -->
     <item
         android:id="@+id/action_clear_completed"
         android:icon="@android:drawable/ic_menu_delete"

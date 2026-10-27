@@ -17,10 +17,10 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CleanCompletedActivity extends AppCompatActivity {
+public class DonDepActivity extends AppCompatActivity {
 
     private TaskViewModel taskViewModel;
-    private TaskAdapter adapter;
+    private CongViecAdapter adapter;
     private TextView tvCompletedCount;
     private View layoutCleanEmpty;
 
@@ -40,7 +40,7 @@ public class CleanCompletedActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rvCompletedTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new TaskAdapter(new TaskAdapter.OnTaskItemClickListener() {
+        adapter = new CongViecAdapter(new CongViecAdapter.OnTaskItemClickListener() {
             @Override
             public void onDeleteClick(Task task) { taskViewModel.delete(task); }
             @Override
@@ -50,7 +50,7 @@ public class CleanCompletedActivity extends AppCompatActivity {
             }
             @Override
             public void onEditClick(Task task) {
-                Intent intent = new Intent(CleanCompletedActivity.this, TaskDetailActivity.class);
+                Intent intent = new Intent(DonDepActivity.this, ChiTietActivity.class);
                 intent.putExtra("taskId", task.getId());
                 startActivity(intent);
             }

@@ -18,7 +18,7 @@ import com.example.quanlycongvieccanhan.viewmodel.TaskViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
-public class TaskDetailActivity extends AppCompatActivity {
+public class ChiTietActivity extends AppCompatActivity {
 
     private TaskViewModel taskViewModel;
     private int taskId = -1;
@@ -82,7 +82,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         });
 
         btnEditDetail.setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddTaskActivity.class);
+            Intent intent = new Intent(this, ThemCongViecActivity.class);
             intent.putExtra("taskId", taskId);
             startActivity(intent);
         });
@@ -96,7 +96,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                     "\n• Danh mục: " + currentTask.getCategory() +
                     "\n• Trạng thái: " + (currentTask.isCompleted() ? "✅ Đã xong" : "⏳ Đang chờ");
             if (currentTask.getDateTime() != null && !currentTask.getDateTime().isEmpty()) {
-                shareText += "\n• Hạn chót: " + currentTask.getDateTime();
+                shareText += "\nHạn chót: " + currentTask.getDateTime();
             }
             sendIntent.putExtra(Intent.EXTRA_TEXT, shareText);
             sendIntent.setType("text/plain");

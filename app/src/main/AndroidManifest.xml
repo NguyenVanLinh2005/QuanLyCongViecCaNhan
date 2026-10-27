@@ -16,7 +16,18 @@
         android:theme="@style/Theme.QuanLyCongViecCaNhan">
 
         <!-- KHAI BÁO BỘ NHẬN TÍN HIỆU BÁO THỨC -->
-        <receiver android:name=".NotificationReceiver" android:exported="false" />
+        <receiver android:name=".ThongBaoReceiver" android:exported="false" />
+
+        <!-- FileProvider dùng chia sẻ file CSDL SQLite -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <activity
             android:name=".MainActivity"
@@ -26,17 +37,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".AlarmActivity"
+            android:name=".BaoThucActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.Dialog"
             android:exported="false" />
+
         <activity android:name=".ThongKeActivity" />
-        <activity android:name=".CalendarActivity" />
-        <activity android:name=".AddTaskActivity" />
-        <activity android:name=".TaskDetailActivity" />
-        <activity android:name=".CategoryActivity" />
-        <activity android:name=".CleanCompletedActivity" />
-        <activity android:name=".BackupRestoreActivity" />
-        <activity android:name=".AppInfoActivity" />
+        <activity android:name=".LichActivity" />
+        <activity android:name=".ThemCongViecActivity" />
+        <activity android:name=".ChiTietActivity" />
+        <activity android:name=".DanhMucActivity" />
+        <activity android:name=".DonDepActivity" />
+        <activity android:name=".SaoLuuActivity" />
+        <activity android:name=".ThongTinActivity" />
+        <activity android:name=".AiPlannerActivity" />
+        <activity android:name=".data.SQLiteViewerActivity" />
     </application>
 </manifest>

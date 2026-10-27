@@ -4,7 +4,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 
-public class AppInfoActivity extends AppCompatActivity {
+public class ThongTinActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F4F7FE"
+    android:fitsSystemWindows="true">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSqlite"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#4318FF"
+        app:navigationIcon="@android:drawable/ic_menu_revert"
+        app:title="Quản Lý CSDL SQLite"
+        app:titleTextColor="#FFFFFF" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Card 1: Thông tin File CSDL SQLite -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🗄️ Thông Tin Tệp Cơ Sở Dữ Liệu SQLite"
+                        android:textColor="#2B3674"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <TextView
+                        android:id="@+id/tvDbName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Tên CSDL: task_database"
+                        android:textColor="#2B3674"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="6dp"/>
+
+                    <TextView
+                        android:id="@+id/tvDbPath"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Đường dẫn: /data/data/com.example.../databases/task_database"
+                        android:textColor="#A3AED0"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="6dp"/>
+
+                    <TextView
+                        android:id="@+id/tvDbInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Dung lượng: 0 KB | Phiên bản SQLite: 3"
+                        android:textColor="#2B3674"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="6dp"/>
+
+                    <TextView
+                        android:id="@+id/tvTableSummary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Bảng dữ liệu: task_table (0 bản ghi)"
+                        android:textColor="#4318FF"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnExportDb"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="📤 XUẤT &amp; CHIA SẺ FILE SQLITE (.DB)"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="14dp"
+                        app:backgroundTint="#4318FF"
+                        android:textColor="#FFFFFF"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 2: Thực thi Lệnh SQL Query -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⚡ Thực Thi Câu Lệnh Truy Vấn SQL"
+                        android:textColor="#2B3674"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nhập câu lệnh SQL Query"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etSqlQuery"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="SELECT * FROM task_table"
+                            android:textColor="#2B3674"
+                            android:fontFamily="monospace"
+                            android:textSize="13sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRunQuery"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="⚡ CHẠY LỆNH SQL QUERY"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="12dp"
+                        android:textColor="#4318FF"
+                        app:strokeColor="#4318FF"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 3: Cấu Trúc Bảng SQLite (Schema) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📐 Cấu Trúc Bảng 'task_table' (Schema)"
+                        android:textColor="#2B3674"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <TextView
+                        android:id="@+id/tvSchemaDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#2B3674"
+                        android:fontFamily="monospace"
+                        android:textSize="12sp"
+                        android:background="#F4F7FE"
+                        android:padding="12dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 4: Kết quả Dữ Liệu SQL Thô -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/tvQueryResultTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📊 Dữ Liệu SQL Thô (Raw SQL Records)"
+                        android:textColor="#2B3674"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/layoutRawSqlRows"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -91,7 +91,7 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- Thanh Lọc Gọn Gàng & Hiện Đại (TabLayout + Category Dropdown) -->
+        <!-- Thanh Lọc Ngày Trong Tuần (7 Ngày + Tất Cả) -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayoutFilter"
             android:layout_width="match_parent"
@@ -100,31 +100,10 @@
             app:tabIndicatorColor="#4318FF"
             app:tabSelectedTextColor="#4318FF"
             app:tabTextColor="#A3AED0"
-            app:tabMode="fixed"
-            app:tabGravity="fill">
+            app:tabMode="scrollable"
+            app:tabGravity="start"/>
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tất cả" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⏳ Chờ xử lý" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="✅ Đã xong" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⭐ Yêu thích" />
-        </com.google.android.material.tabs.TabLayout>
-
-        <!-- Thanh Phụ Lọc Theo Danh Mục Sang Trọng -->
+        <!-- Thanh Phụ Lọc Theo Trạng Thái & Danh Mục Sang Trọng -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -148,7 +127,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
-                android:text="🏷️ Danh mục ▾"
+                android:text="🏷️ Bộ lọc &amp; Danh mục ▾"
                 android:textSize="12sp"
                 android:textColor="#4318FF"
                 app:strokeColor="#4318FF"

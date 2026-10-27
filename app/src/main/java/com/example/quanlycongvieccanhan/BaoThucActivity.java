@@ -14,14 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AlarmActivity extends AppCompatActivity {
-    private MediaPlayer mediaPlayer; // Sử dụng MediaPlayer thay cho Ringtone
+public class BaoThucActivity extends AppCompatActivity {
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Đánh thức điện thoại và GIỮ MÀN HÌNH SÁNG LIÊN TỤC
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);
@@ -37,21 +36,21 @@ public class AlarmActivity extends AppCompatActivity {
 
         TextView tvTitle = findViewById(R.id.tvAlarmTitle);
         TextView tvDesc = findViewById(R.id.tvAlarmDesc);
-        tvTitle.setText(title);
-        tvDesc.setText(desc);
+        if (tvTitle != null) tvTitle.setText(title);
+        if (tvDesc != null) tvDesc.setText(desc);
 
-        // Hiệu ứng chuông rung lắc
         ImageView imgBell = findViewById(R.id.imgBell);
-        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 1.3f, 1f);
-        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 1.3f, 1f);
-        PropertyValuesHolder rotate = PropertyValuesHolder.ofFloat("rotation", 0f, -20f, 20f, 0f);
+        if (imgBell != null) {
+            PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 1.3f, 1f);
+            PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 1.3f, 1f);
+            PropertyValuesHolder rotate = PropertyValuesHolder.ofFloat("rotation", 0f, -20f, 20f, 0f);
 
-        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(imgBell, scaleX, scaleY, rotate);
-        animator.setDuration(600);
-        animator.setRepeatCount(ObjectAnimator.INFINITE);
-        animator.start();
+            ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(imgBell, scaleX, scaleY, rotate);
+            animator.setDuration(600);
+            animator.setRepeatCount(ObjectAnimator.INFINITE);
+            animator.start();
+        }
 
-        // BẬT NHẠC CHUÔNG LẶP LẠI VÔ HẠN
         try {
             Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
             if (alarmUri == null) alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -63,7 +62,6 @@ public class AlarmActivity extends AppCompatActivity {
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .build());
 
-            // Dòng lệnh then chốt: Bắt buộc kêu liên tục cho đến khi bị tắt
             mediaPlayer.setLooping(true);
             mediaPlayer.prepare();
             mediaPlayer.start();
@@ -71,22 +69,22 @@ public class AlarmActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Tắt báo thức khi chủ động nhấn nút
         Button btnDismiss = findViewById(R.id.btnDismiss);
-        btnDismiss.setOnClickListener(v -> {
-            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-                mediaPlayer = null;
-            }
-            finish();
-        });
+        if (btnDismiss != null) {
+            btnDismiss.setOnClickListener(v -> {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                }
+                finish();
+            });
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Đảm bảo nhạc tắt triệt để khi hộp thoại bị đóng bằng phím Back
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) mediaPlayer.stop();
             mediaPlayer.release();

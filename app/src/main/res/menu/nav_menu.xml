@@ -3,6 +3,11 @@
 
     <group android:checkableBehavior="none">
         <item
+            android:id="@+id/nav_ai"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="✨ Trợ lý AI Lập kế hoạch" />
+
+        <item
             android:id="@+id/nav_add"
             android:icon="@android:drawable/ic_input_add"
             android:title="Thêm công việc mới" />
@@ -35,6 +40,11 @@
 
     <item android:title="Hệ thống &amp; Cài đặt">
         <menu>
+            <item
+                android:id="@+id/nav_theme"
+                android:icon="@android:drawable/ic_menu_compass"
+                android:title="🌙 Chế độ Tối / Sáng" />
+
             <item
                 android:id="@+id/nav_info"
                 android:icon="@android:drawable/ic_menu_info_details"

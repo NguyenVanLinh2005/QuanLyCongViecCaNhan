@@ -15,10 +15,10 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryActivity extends AppCompatActivity {
+public class DanhMucActivity extends AppCompatActivity {
 
     private TaskViewModel taskViewModel;
-    private TaskAdapter adapter;
+    private CongViecAdapter adapter;
     private TextView tvCatSummary;
     private View layoutCategoryEmpty;
     private String selectedCategory = "Cá nhân";
@@ -39,7 +39,7 @@ public class CategoryActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rvCategoryTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new TaskAdapter(new TaskAdapter.OnTaskItemClickListener() {
+        adapter = new CongViecAdapter(new CongViecAdapter.OnTaskItemClickListener() {
             @Override
             public void onDeleteClick(Task task) { taskViewModel.delete(task); }
             @Override
@@ -49,7 +49,7 @@ public class CategoryActivity extends AppCompatActivity {
             }
             @Override
             public void onEditClick(Task task) {
-                Intent intent = new Intent(CategoryActivity.this, TaskDetailActivity.class);
+                Intent intent = new Intent(DanhMucActivity.this, ChiTietActivity.class);
                 intent.putExtra("taskId", task.getId());
                 startActivity(intent);
             }
