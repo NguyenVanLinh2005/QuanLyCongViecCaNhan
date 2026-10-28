@@ -20,7 +20,6 @@ import com.example.quanlycongvieccanhan.data.Task;
 import com.example.quanlycongvieccanhan.viewmodel.TaskViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.chip.ChipGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class AiPlannerActivity extends AppCompatActivity {
     private TaskViewModel taskViewModel;
 
     private EditText etAiGoalInput;
-    private ChipGroup chipGroupTimeframe;
+    private EditText etAiDaysInput;
     private Spinner spinnerAiStrategy;
 
     private MaterialCardView cardAiInsights;
@@ -64,7 +63,7 @@ public class AiPlannerActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
 
         etAiGoalInput = findViewById(R.id.etAiGoalInput);
-        chipGroupTimeframe = findViewById(R.id.chipGroupTimeframe);
+        etAiDaysInput = findViewById(R.id.etAiDaysInput);
         spinnerAiStrategy = findViewById(R.id.spinnerAiStrategy);
 
         cardAiInsights = findViewById(R.id.cardAiInsights);
@@ -89,17 +88,18 @@ public class AiPlannerActivity extends AppCompatActivity {
             goal = "Phát triển công việc & Mục tiêu cá nhân";
         }
 
-        int selectedChipId = chipGroupTimeframe.getCheckedChipId();
-        String timeframeText = "1 Tuần";
-        int daysOffset = 7;
-
-        if (selectedChipId == R.id.chip1Day) {
-            timeframeText = "1 Ngày";
-            daysOffset = 1;
-        } else if (selectedChipId == R.id.chip1Month) {
-            timeframeText = "1 Tháng";
-            daysOffset = 30;
+        int numDays = 7;
+        try {
+            String daysStr = etAiDaysInput.getText().toString().trim();
+            if (!daysStr.isEmpty()) {
+                numDays = Integer.parseInt(daysStr);
+            }
+        } catch (Exception e) {
+            numDays = 7;
         }
+
+        if (numDays < 1) numDays = 1;
+        if (numDays > 60) numDays = 60; // Giới hạn tối đa 60 ngày
 
         int strategyIndex = spinnerAiStrategy.getSelectedItemPosition();
         String selectedStrategy = strategies[strategyIndex];
@@ -107,101 +107,76 @@ public class AiPlannerActivity extends AppCompatActivity {
         // Lời khuyên & Giải thích chiến lược từ AI
         StringBuilder explanationSb = new StringBuilder();
         explanationSb.append("• Mục tiêu: ").append(goal).append("\n");
-        explanationSb.append("• Khung thời gian: ").append(timeframeText).append("\n");
+        explanationSb.append("• Số ngày AI lên lịch: ").append(numDays).append(" ngày\n");
         explanationSb.append("• Chiến lược AI áp dụng: ").append(selectedStrategy).append("\n\n");
 
-        if (strategyIndex == 0) { // Eisenhower
-            explanationSb.append("💡 AI đã chia mục tiêu của bạn thành 4 nhóm theo Ma Trận Eisenhower (Khẩn cấp/Quan trọng) để tập trung giải quyết các việc ưu tiên cao trước.");
-        } else if (strategyIndex == 1) { // Pomodoro & Time Blocking
-            explanationSb.append("💡 AI áp dụng kỹ thuật Time-Blocking chia khung giờ tập trung (25 phút Pomodoro) để tránh xao nhãng và hoàn thành từng chặng.");
-        } else if (strategyIndex == 2) { // SMART
-            explanationSb.append("💡 AI quy hoạch mục tiêu SMART (Đo lường được, Khả thi, Thời hạn rõ ràng) giúp bạn dễ dàng theo dõi chặng đường hoàn thành.");
-        } else { // Balanced
-            explanationSb.append("💡 AI phân bổ chẵn giữa Công việc, Học tập và Nghỉ ngơi/Sức khỏe giúp bạn duy trì năng suất bền vững.");
+        if (strategyIndex == 0) {
+            explanationSb.append("💡 AI đã chia nhỏ công việc cho từng ngày theo Ma Trận Eisenhower để hoàn thành các phần ưu tiên cao trước.");
+        } else if (strategyIndex == 1) {
+            explanationSb.append("💡 AI áp dụng kỹ thuật Time-Blocking chia khung giờ tập trung hằng ngày giúp bạn duy trì nhịp độ ổn định.");
+        } else if (strategyIndex == 2) {
+            explanationSb.append("💡 AI quy hoạch mục tiêu SMART cho từng ngày cụ thể, giúp bạn đo lường tiến độ rõ ràng.");
+        } else {
+            explanationSb.append("💡 AI phân bổ khối lượng làm việc chẵn giữa Công việc, Học tập và Sức khỏe cho từng ngày.");
         }
 
         tvAiStrategyExplanation.setText(explanationSb.toString());
         cardAiInsights.setVisibility(View.VISIBLE);
 
-        // Sinh danh sách công việc đề xuất
+        // Sinh danh sách công việc đề xuất cho TỪNG NGÀY
         generatedProposedTasks.clear();
         layoutAiProposedTasksList.removeAllViews();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdfFull = new SimpleDateFormat("dd/MM/yyyy 20:00", Locale.getDefault());
+        SimpleDateFormat sdfShort = new SimpleDateFormat("dd/MM", Locale.getDefault());
 
-        if (daysOffset == 1) { // 1 Ngày
-            cal.add(Calendar.HOUR_OF_DAY, 2);
-            generatedProposedTasks.add(new Task(
-                    "Buổi sáng: Khởi động & " + goal,
-                    "Tập trung giải quyết các nội dung quan trọng nhất.",
-                    false, 2, sdf.format(cal.getTime()), "Công việc", true, "Tại nhà / Phòng làm việc", "Không lặp", "Chuẩn bị tài liệu, Lập checklist"
-            ));
+        String[] categoriesList = {"Học tập", "Công việc", "Cá nhân", "Sức khỏe", "Tài chính"};
 
-            cal.add(Calendar.HOUR_OF_DAY, 4);
-            generatedProposedTasks.add(new Task(
-                    "Buổi chiều: Thực hành & Hoàn thiện " + goal,
-                    "Giải quyết phần bài tập và rà soát lỗi.",
-                    false, 1, sdf.format(cal.getTime()), "Học tập", false, "Phòng học", "Không lặp", "Thực hành, Đánh giá kết quả"
-            ));
+        for (int i = 1; i <= numDays; i++) {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, i - 1);
+            Date taskDate = cal.getTime();
 
-            cal.add(Calendar.HOUR_OF_DAY, 3);
-            generatedProposedTasks.add(new Task(
-                    "Buổi tối: Tổng kết & Vận động nhẹ",
-                    "Nghỉ ngơi và xem lại tiến độ trong ngày.",
-                    false, 0, sdf.format(cal.getTime()), "Sức khỏe", false, "Tại nhà", "Không lặp", "Nghỉ ngơi 30p, Đọc sách"
-            ));
+            String dateShort = sdfShort.format(taskDate);
+            String fullDateTime = sdfFull.format(taskDate);
 
-        } else if (daysOffset == 7) { // 1 Tuần
-            cal.add(Calendar.DAY_OF_MONTH, 2);
-            generatedProposedTasks.add(new Task(
-                    "Chặng 1 (Ngày 1-2): Thu thập thông tin & " + goal,
-                    "Nghiên cứu tài liệu và xây dựng khung kế hoạch.",
-                    false, 2, sdf.format(cal.getTime()), "Học tập", true, "Thư viện / Phòng học", "Không lặp", "Đọc tài liệu, Lập đề cương"
-            ));
+            String taskTitle;
+            String taskDesc;
+            int priority;
+            String category = categoriesList[(i - 1) % categoriesList.length];
 
-            cal.add(Calendar.DAY_OF_MONTH, 3);
-            generatedProposedTasks.add(new Task(
-                    "Chặng 2 (Ngày 3-5): Thực thi cốt lõi & " + goal,
-                    "Tập trung hoàn thành phần khối lượng lớn nhất.",
-                    false, 2, sdf.format(cal.getTime()), "Công việc", true, "Phòng làm việc", "Không lặp", "Soạn thảo, Chạy kiểm thử"
-            ));
+            if (i == 1) {
+                taskTitle = "Ngày 1 (" + dateShort + "): Khởi động & Lập kế hoạch " + goal;
+                taskDesc = "Chuẩn bị tài liệu, định hình các bước triển khai.";
+                priority = 2;
+            } else if (i == numDays) {
+                taskTitle = "Ngày " + i + " (" + dateShort + "): Tổng kết & Đánh giá kết quả " + goal;
+                taskDesc = "Nghiệm thu toàn bộ công việc và rút kinh nghiệm.";
+                priority = 1;
+            } else if (i % 2 == 0) {
+                taskTitle = "Ngày " + i + " (" + dateShort + "): Thực thi trọng tâm " + goal;
+                taskDesc = "Tập trung giải quyết các mục tiêu chính trong ngày.";
+                priority = 2;
+            } else {
+                taskTitle = "Ngày " + i + " (" + dateShort + "): Củng cố & Mở rộng " + goal;
+                taskDesc = "Thực hành, rà soát và chuẩn bị cho các bước tiếp theo.";
+                priority = 1;
+            }
 
-            cal.add(Calendar.DAY_OF_MONTH, 2);
-            generatedProposedTasks.add(new Task(
-                    "Chặng 3 (Ngày 6-7): Rà soát, Tổng kết & " + goal,
-                    "Kiểm tra lại toàn bộ kết quả tuần.",
-                    false, 1, sdf.format(cal.getTime()), "Cá nhân", false, "Tại nhà", "Không lặp", "Tổng kết tuần, Đánh giá"
-            ));
+            Task dailyTask = new Task(
+                    taskTitle,
+                    taskDesc,
+                    false,
+                    priority,
+                    fullDateTime,
+                    category,
+                    (i == 1 || i == numDays),
+                    "Tại nhà / Phòng làm việc",
+                    "Không lặp",
+                    "Chuẩn bị nội dung, Thực hành ngày " + i
+            );
 
-        } else { // 1 Tháng
-            cal.add(Calendar.DAY_OF_MONTH, 7);
-            generatedProposedTasks.add(new Task(
-                    "Tuần 1: Khởi động & Xây dựng nền tảng " + goal,
-                    "Hoàn thành các kiến thức và chuẩn bị ban đầu.",
-                    false, 2, sdf.format(cal.getTime()), "Học tập", true, "Trường / Cơ quan", "Hằng tuần", "Lập mục tiêu tuần 1, Tìm tài liệu"
-            ));
-
-            cal.add(Calendar.DAY_OF_MONTH, 7);
-            generatedProposedTasks.add(new Task(
-                    "Tuần 2: Tăng tốc triển khai " + goal,
-                    "Thực hiện 50% khối lượng mục tiêu tháng.",
-                    false, 2, sdf.format(cal.getTime()), "Công việc", true, "Phòng làm việc", "Hằng tuần", "Đánh giá giữa chặng"
-            ));
-
-            cal.add(Calendar.DAY_OF_MONTH, 7);
-            generatedProposedTasks.add(new Task(
-                    "Tuần 3: Đạt ngưỡng mục tiêu & Kiểm tra " + goal,
-                    "Hoàn thành các hạng mục còn lại.",
-                    false, 1, sdf.format(cal.getTime()), "Cá nhân", false, "Tại nhà", "Hằng tuần", "Rà soát chi tiết"
-            ));
-
-            cal.add(Calendar.DAY_OF_MONTH, 7);
-            generatedProposedTasks.add(new Task(
-                    "Tuần 4: Tổng kết & Đánh giá kết quả " + goal,
-                    "Nghiệm thu toàn bộ mục tiêu trong tháng.",
-                    false, 1, sdf.format(cal.getTime()), "Tài chính", true, "Tại nhà", "Hằng tháng", "Viết báo cáo tổng kết"
-            ));
+            generatedProposedTasks.add(dailyTask);
         }
 
         // Hiển thị công việc đề xuất lên giao diện
@@ -241,7 +216,7 @@ public class AiPlannerActivity extends AppCompatActivity {
         }
 
         cardAiProposedTasks.setVisibility(View.VISIBLE);
-        Toast.makeText(this, "AI đã phân tích và tạo lịch công việc thành công!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "AI đã phân tích và tạo lịch công việc chi tiết cho " + numDays + " ngày!", Toast.LENGTH_SHORT).show();
     }
 
     private void applyAiPlanToDatabase() {
@@ -255,7 +230,7 @@ public class AiPlannerActivity extends AppCompatActivity {
             scheduleNotification(t);
         }
 
-        Toast.makeText(this, "Đã lưu thành công " + generatedProposedTasks.size() + " công việc AI vào CSDL SQLite!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Đã lưu thành công " + generatedProposedTasks.size() + " công việc AI cho từng ngày vào CSDL SQLite!", Toast.LENGTH_LONG).show();
         finish();
     }
 

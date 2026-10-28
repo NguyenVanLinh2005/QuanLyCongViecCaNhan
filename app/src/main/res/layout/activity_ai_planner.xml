@@ -49,7 +49,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="✨ TRỢ LÝ AI LÊN LỊCH THÔNG MINH"
+                        android:text="✨ TRỢ LÝ AI LÊN LỊCH TỪNG NGÀY"
                         android:textColor="#4318FF"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -58,14 +58,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tự động nghiên cứu phương pháp &amp; lên lịch công việc tối ưu cho cá nhân bạn trong 1 ngày, 1 tuần hoặc 1 tháng."
+                        android:text="Tự động nghiên cứu phương pháp &amp; lập danh sách công việc chi tiết cho từng ngày dựa theo số ngày bạn yêu cầu."
                         android:textColor="#2B3674"
                         android:textSize="13sp"
                         android:gravity="center"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Card 1: Nhập mục tiêu & Cấu hình AI -->
+            <!-- Card 1: Nhập mục tiêu & Số ngày AI lên lịch -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,42 +109,27 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="⏱️ Thời gian lập kế hoạch:"
+                        android:text="⏱️ Số ngày muốn AI lên lịch:"
                         android:textColor="#2B3674"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="6dp"/>
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chipGroupTimeframe"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:singleSelection="true"
-                        app:selectionRequired="true"
+                        android:hint="Nhập số ngày (Ví dụ: 3, 5, 7, 14, 30...)"
                         android:layout_marginBottom="12dp">
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip1Day"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAiDaysInput"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="📅 1 Ngày" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip1Week"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:text="🗓️ 1 Tuần" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip1Month"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📆 1 Tháng" />
-                    </com.google.android.material.chip.ChipGroup>
+                            android:inputType="number"
+                            android:text="7"
+                            android:textColor="#2B3674"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -235,7 +220,7 @@
                         android:id="@+id/tvProposedTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📋 Danh Sách Công Việc AI Đề Xuất:"
+                        android:text="📋 Danh Sách Công Việc AI Đề Xuất Cho Từng Ngày:"
                         android:textColor="#2B3674"
                         android:textSize="16sp"
                         android:textStyle="bold"
